@@ -1,19 +1,10 @@
 <template>
-  <weather-info></weather-info>
+  <nav>
+    <router-link :to="{ name: 'home' }">Main Page</router-link>
+    <router-link :to="{ name: 'gallery' }">Gallery</router-link>
+  </nav>
+  <router-view />
 </template>
-
-<script>
-import weatherInfo from "@/components/WeatherInfo";
-export default {
-  name: "App",
-  data() {
-    return {};
-  },
-  components: {
-    weatherInfo,
-  },
-};
-</script>
 
 <style lang="scss">
 @import "@/assets/css/variables.scss";
