@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
+import GalleryView from "../views/GalleryView.vue";
 
 const routes = [
   {
@@ -10,7 +11,7 @@ const routes = [
   {
     path: "/gallery",
     name: "gallery",
-    // component: GalleryView,
+    component: GalleryView,
   },
 ];
 

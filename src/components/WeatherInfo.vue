@@ -1,20 +1,15 @@
 <template>
   <div class="search-bar">
-    <input
-      type="text"
-      v-model.trim="query"
-      placeholder="Search..."
-      @keypress.enter="getWeather"
-    />
+    <input type="text" v-model.lazy="query" placeholder="Search..." />
   </div>
   <div class="weather-data" v-if="Object.keys(weather).length !== 0">
-    <img :src="getIcon" alt="icon" />
-    <p>{{ weather.data.name }}, {{ weather.data.sys.country }}</p>
-    <p>{{ Math.round(weather.data.main.temp) }}C</p>
-    <p>
-      {{ datetime }}
-    </p>
-    <p>{{ weather.data.weather[0].description }}</p>
+    <img :src="icon" alt="icon" />
+    <p>{{ weather.name }}, {{ weather.sys.country }}</p>
+    <p>{{ Math.round(weather.main.temp) }}C</p>
+    <p>{{ datetime.time }}</p>
+    <p>{{ datetime.date }}</p>
+    <p>{{ datetime.year }}</p>
+    <p>{{ weather.weather[0].description }}</p>
   </div>
 </template>
 
@@ -23,6 +18,7 @@ import {
   weather_api_key,
   weather_api_url,
   icon_base_url,
+  month_names,
 } from "@/assist/constants.js";
 import axios from "axios";
 
@@ -30,39 +26,47 @@ export default {
   name: "weather-info",
   data() {
     return {
-      datetime: "",
-      query: "Tomsk",
       weather: {},
-      time: {},
+      query: "",
+      datetime: "",
     };
   },
+
   computed: {
-    getIcon() {
-      return `${icon_base_url}${this.weather.data.weather[0].icon}@2x.png`;
+    icon: function () {
+      return `${icon_base_url}${this.weather.weather[0].icon}@2x.png`;
     },
   },
-  created() {
-    this.intervalId = setInterval(
-      () => (this.datetime = Date(Date.now())),
-      1000
-    );
+
+  watch: {
+    // eslint-disable-next-line no-unused-vars
+    query(newQuery, oldQuery) {
+      axios
+        .get(
+          `${weather_api_url}weather?q=${newQuery}&units=metric&appid=${weather_api_key}`
+        )
+        .then((response) => (this.weather = response.data));
+    },
   },
 
-  // Если повесили таймер, то его нужно отключать
+  mounted() {
+    this.query = "Tomsk";
+    this.getTime();
+
+    this.intervalId = setInterval(this.getTime, 2000);
+  },
+
   beforeUnmount() {
     if (this.intervalId) clearInterval(this.intervalId);
   },
 
   methods: {
-    getWeather() {
-      axios
-        .get(
-          `${weather_api_url}weather?q=${this.query}&units=metric&appid=${weather_api_key}`
-        )
-        .then(this.setResult);
-    },
-    setResult(res) {
-      this.weather = res;
+    getTime() {
+      let datetime = new Date();
+      let date = `${datetime.getDate()} ${month_names[datetime.getMonth()]}`;
+      let time = `${datetime.getHours()}:${datetime.getMinutes()}`;
+      let year = `${datetime.getFullYear()}`;
+      this.datetime = { date: date, time: time, year: year };
     },
   },
 };

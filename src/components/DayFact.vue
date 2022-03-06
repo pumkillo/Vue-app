@@ -15,9 +15,9 @@ export default {
     };
   },
   mounted() {
-    axios.get(`${nasa_api_url}?api_key=${nasa_api_key}`).then((response) => {
-      this.dayfact = response.data;
-    });
+    axios
+      .get(`${nasa_api_url}?api_key=${nasa_api_key}`)
+      .then((response) => (this.dayfact = response.data));
   },
 };
 </script>
