@@ -1,10 +1,14 @@
 <template>
-  <input type="text" placeholder="" v-model.lazy="query" />
-  <img :src="random_photo" alt="" id="random_photo" />
-  <div class="phot-grid" v-if="response_array.length !== 0">
+  <div class="search-bar-photo">
+    <input type="text" placeholder="Search..." v-model.lazy="query" />
+  </div>
+  <img :src="random_photo" alt="Random photo" id="random_photo" />
+  <div class="photo-grid" v-if="response_array.length !== 0">
     <div class="photo" v-for="result in response_array" :key="result.id">
-      <img :src="result.urls.small" alt="" />
-      <p>{{ result.user.username }}</p>
+      <img :src="result.urls.small" :alt="result.id" />
+      <div class="author">
+        <h1>{{ result.user.username }}</h1>
+      </div>
     </div>
   </div>
 </template>
@@ -21,14 +25,15 @@ export default {
       response_array: [],
     };
   },
+
   mounted() {
     axios
       .get(`${unsplash_api_url}photos/random?client_id=${unsplash_api_key}`)
       .then((photo) => (this.random_photo = photo.data.urls.small));
   },
+
   watch: {
-    // eslint-disable-next-line no-unused-vars
-    query(newQuery, oldQuery) {
+    query(newQuery) {
       axios
         .get(
           `${unsplash_api_url}search/photos?query=${newQuery}&client_id=${unsplash_api_key}`
@@ -45,4 +50,49 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+@import "@/assets/css/variables.scss";
+.search-bar-photo {
+  width: 50vw;
+  max-width: 600px;
+  min-width: 250px;
+  margin: 70px 0;
+  border-radius: 10px;
+}
+.search-bar-photo > input {
+  font-size: $small-title-text-size;
+  width: 100%;
+  border-radius: 10px;
+}
+img {
+  border: 3px solid $white-color;
+  border-radius: 8px;
+  max-width: 1300px;
+  max-height: 550px;
+}
+.photo-grid {
+  display: grid;
+  grid-column-gap: 21px;
+  grid-row-gap: 15px;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.photo-grid > .photo {
+  position: relative;
+  max-width: 400px;
+  aspect-ratio: 1 / 1;
+}
+.photo-grid > .photo > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.photo-grid > .photo > .author {
+  background-color: $white-color;
+  padding: 12px 50px;
+  position: absolute;
+  right: -3px;
+  bottom: 7px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 7px 0px 7px 0px;
+}
+</style>

@@ -1,6 +1,8 @@
 <template>
-  <weather-info></weather-info>
-  <day-fact></day-fact>
+  <div class="main">
+    <weather-info></weather-info>
+    <day-fact></day-fact>
+  </div>
 </template>
 
 <script>
@@ -15,3 +17,16 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.main {
+  margin: 46px auto 0 auto;
+  justify-content: space-between;
+  height: 100vh;
+  width: 80vw;
+  max-width: 1300px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+</style>

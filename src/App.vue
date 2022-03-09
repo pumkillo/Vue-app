@@ -1,8 +1,15 @@
 <template>
   <nav>
-    <router-link :to="{ name: 'home' }">Main Page</router-link>
-    <router-link :to="{ name: 'gallery' }">Gallery</router-link>
+    <div class="nav-links">
+      <router-link :to="{ name: 'home' }">Main Page</router-link>
+      <router-link :to="{ name: 'gallery' }">Gallery</router-link>
+    </div>
   </nav>
+  <img
+    src="@/assets/images/night-background-image.jpg"
+    alt="Background Image"
+    id="background-image"
+  />
   <router-view />
 </template>
 
