@@ -15,13 +15,19 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 export default {
   data() {
     return {};
   },
   computed: {
     ...mapState(["time_of_day"]),
+  },
+  beforeMount() {
+    this.get_time_of_day(new Date().getHours());
+  },
+  methods: {
+    ...mapActions(["get_time_of_day"]),
   },
 };
 </script>

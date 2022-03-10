@@ -3,19 +3,21 @@
     <input type="text" placeholder="Search..." v-model.lazy="query" />
   </div>
   <img :src="random_photo" alt="Random photo" id="random_photo" />
-  <div class="photo-grid" v-if="response_array.length !== 0">
-    <div class="photo" v-for="result in response_array" :key="result.id">
-      <img :src="result.urls.small" :alt="result.id" />
-      <div class="author">
-        <h1>{{ result.user.username }}</h1>
-      </div>
-    </div>
+  <div class="photo-grid">
+    <photo-preview
+      v-for="result in response_array"
+      :key="result.id"
+      :authorName="result.user.username"
+      :imageUrl="result.urls.small"
+      :imageUrlId="result.id"
+    ></photo-preview>
   </div>
 </template>
 
 <script>
 import { unsplash_api_key, unsplash_api_url } from "@/assist/constants.js";
 import axios from "axios";
+import photoPreview from "@/components/Photo.vue";
 export default {
   name: "v-gallery",
   data() {
@@ -24,6 +26,10 @@ export default {
       query: "",
       response_array: [],
     };
+  },
+
+  components: {
+    photoPreview,
   },
 
   mounted() {
@@ -63,12 +69,6 @@ export default {
   font-size: $small-title-text-size;
   width: 100%;
   border-radius: 10px;
-}
-img {
-  border: 3px solid $white-color;
-  border-radius: 8px;
-  max-width: 1300px;
-  max-height: 550px;
 }
 .photo-grid {
   display: grid;

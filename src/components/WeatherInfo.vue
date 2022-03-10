@@ -1,6 +1,6 @@
 <template>
   <div class="weather-vidget">
-    <h2>{{ datetime }}</h2>
+    <time-now></time-now>
     <div class="search-bar-weather">
       <input type="text" v-model.lazy="query" placeholder="Search..." />
     </div>
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import timeNow from "@/components/TimeNow.vue";
 import {
   weather_api_key,
   weather_api_url,
@@ -36,11 +36,10 @@ export default {
     return {
       weather: {},
       query: "",
-      datetime: "",
-      hours: 25,
-      time_of_day: "night",
     };
   },
+
+  components: { timeNow },
 
   computed: {
     icon: function () {
@@ -56,53 +55,13 @@ export default {
         )
         .then((response) => (this.weather = response.data));
     },
-    hours(newHours) {
-      this.get_time_of_day(newHours);
-    },
   },
 
   mounted() {
     this.query = "Tomsk ";
-    this.getTime();
-    this.intervalId = setInterval(this.getTime, 2000);
   },
 
-  beforeUnmount() {
-    if (this.intervalId) clearInterval(this.intervalId);
-  },
-
-  methods: {
-    ...mapActions(["get_time_of_day"]),
-    getTime() {
-      let datetime = new Date();
-
-      let hours = datetime.getHours();
-      let minutes = datetime.getMinutes();
-      let weekday = Intl.DateTimeFormat("en-US", {
-        weekday: "long",
-      }).format(datetime);
-      let day = datetime.getDate();
-      let month = Intl.DateTimeFormat("en-US", {
-        month: "long",
-      }).format(datetime);
-      let year = `${datetime.getFullYear()}`;
-      this.hours = hours;
-      this.datetime = this.formatDate(
-        hours,
-        minutes,
-        weekday,
-        day,
-        month,
-        year
-      );
-    },
-
-    formatDate(hours, minutes, weekday, day, month, year) {
-      hours = hours < 10 ? `0${hours}` : hours;
-      minutes = minutes < 10 ? `0${minutes}` : minutes;
-      return `${hours}:${minutes} - ${weekday}, ${day} ${month} ${year}`;
-    },
-  },
+  methods: {},
 };
 </script>
 
@@ -128,10 +87,6 @@ export default {
 }
 .weather-vidget input {
   width: 90%;
-}
-.weather-vidget h2 {
-  font-size: $big-title-text-size;
-  margin-bottom: 40px;
 }
 .weather-vidget h1 {
   font-size: $small-title-text-size;
