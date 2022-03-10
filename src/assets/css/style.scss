@@ -8,13 +8,59 @@
 #app {
   overflow: hidden;
 }
-#background-image {
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
-  z-index: -100;
-  filter: blur(15px);
+
+// background settings
+#night {
+  background-image: url($night-background-url);
 }
+#morning {
+  background-image: url($morning-background-url);
+}
+#afternoon {
+  background-image: url($afternoon-background-url);
+}
+#evening {
+  background-image: url($evening-background-url);
+}
+.background-image {
+  filter: brightness(0.6) blur(5px);
+  position: fixed;
+  left: -12px;
+  width: 105vw;
+  height: 105vh;
+  z-index: -100;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+#icon{
+  filter: drop-shadow(0px 4px 20px rgba(0, 0, 0, 0.25));
+}
+.dark #icon {
+  filter: drop-shadow(0px 4px 20px rgba(255, 255, 255, 0.5));
+}
+
+// change design dependencies
+.dark > div {
+  background-color: $dark-blue-color;
+}
+.dark p,
+.dark h1,
+.dark h2,
+.dark h3,
+.dark h4,
+.dark h5,
+.dark h6,
+.dark a,
+.dark span,
+.dark > .weather-vidget input {
+  color: $light-grey-color;
+}
+.dark > .weather-vidget .weather-main,
+.dark > .weather-vidget input {
+  background-color: $light-blue-color;
+}
+
+// general properties for text
 p,
 h1,
 h2,
@@ -24,13 +70,14 @@ h5,
 h6,
 a,
 span {
+  color: $dark-blue-color;
   text-align: center;
+  text-decoration: none;
   font-weight: 400;
   font-size: $main-text-size;
 }
-a {
+nav > a {
   user-select: none;
-  text-decoration: none;
 }
 nav {
   position: fixed;

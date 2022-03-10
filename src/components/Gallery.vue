@@ -74,11 +74,11 @@ img {
   display: grid;
   grid-column-gap: 21px;
   grid-row-gap: 15px;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 .photo-grid > .photo {
   position: relative;
-  max-width: 400px;
+  max-width: 300px;
   aspect-ratio: 1 / 1;
 }
 .photo-grid > .photo > img {
@@ -94,5 +94,8 @@ img {
   bottom: 7px;
   background: rgba(255, 255, 255, 0.8);
   border-radius: 7px 0px 7px 0px;
+}
+.author > h1 {
+  color: $dark-blue-color !important;
 }
 </style>

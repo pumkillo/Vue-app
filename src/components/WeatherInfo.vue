@@ -8,7 +8,7 @@
       <h1>Weather in {{ weather.name }} right now</h1>
       <div class="weather-data">
         <div class="weather-main">
-          <img :src="icon" alt="icon" />
+          <img :src="icon" alt="icon" id="icon" />
           <h3>{{ Math.round(weather.main.temp) }}&#xb0;C</h3>
         </div>
         <div class="weather-addition">
@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import {
   weather_api_key,
   weather_api_url,
@@ -36,7 +37,7 @@ export default {
       weather: {},
       query: "",
       datetime: "",
-      hours: 0,
+      hours: 25,
       time_of_day: "night",
     };
   },
@@ -55,6 +56,9 @@ export default {
         )
         .then((response) => (this.weather = response.data));
     },
+    hours(newHours) {
+      this.get_time_of_day(newHours);
+    },
   },
 
   mounted() {
@@ -68,6 +72,7 @@ export default {
   },
 
   methods: {
+    ...mapActions(["get_time_of_day"]),
     getTime() {
       let datetime = new Date();
 
@@ -106,7 +111,7 @@ export default {
 .weather-vidget {
   border-radius: 10px;
   width: 25vw;
-  height: 50vh;
+  height: 80vh;
   max-width: 400px;
   min-width: 200px;
   max-height: 411px;
