@@ -29,9 +29,7 @@ export default {
 @import "@/assets/css/variables.scss";
 .dayFact-vidget {
   width: 50vw;
-  // justify-content: space-between;
   min-height: 700px;
-  max-height: 780px;
   border-radius: 10px;
   max-width: 680px;
   min-width: 300px;

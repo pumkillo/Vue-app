@@ -53,6 +53,7 @@ export default {
         .get(
           `${weather_api_url}weather?q=${newQuery}&units=metric&appid=${weather_api_key}`
         )
+        .catch((error) => console.log(error))
         .then((response) => (this.weather = response.data));
     },
   },
@@ -67,6 +68,9 @@ export default {
 
 <style scoped lang="scss">
 @import "@/assets/css/variables.scss";
+h1 {
+  text-align: center;
+}
 .weather-vidget {
   border-radius: 10px;
   width: 25vw;
